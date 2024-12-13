@@ -1,4 +1,4 @@
-package subway.domain;
+package subway.domain.station.line;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class LineRepository {
+
     private static final List<Line> lines = new ArrayList<>();
+
+    static {
+        for (final LineInformation lineInformation: LineInformation.values()) {
+            addLine(new Line(lineInformation.getLineName()));
+        }
+    }
 
     public static List<Line> lines() {
         return Collections.unmodifiableList(lines);
@@ -23,4 +30,10 @@ public class LineRepository {
     public static void deleteAll() {
         lines.clear();
     }
+    
+    public static boolean hasNotContainLineName(final String lineName) {
+        return lines.stream()
+                .noneMatch(line -> Objects.equals(line.getName(), lineName));
+    }
+
 }
