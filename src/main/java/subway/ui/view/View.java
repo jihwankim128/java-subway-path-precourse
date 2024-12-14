@@ -23,4 +23,14 @@ public class View extends OutputView {
         return SearchFeatureType.from(prompt.readInputData());
     }
 
+    public String enterStartStation() {
+        displayStartStation();
+        return prompt.readInputData();
+    }
+
+    public String enterEndStation() {
+        displayEndStation();
+        return prompt.readInputData();
+    }
+
 }

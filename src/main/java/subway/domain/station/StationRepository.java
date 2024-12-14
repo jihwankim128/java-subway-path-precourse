@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import subway.domain.station.line.LineRepository;
+import subway.domain.line.LineRepository;
 import subway.exception.ExceptionMessage;
 import subway.exception.InitializeException;
 
@@ -14,10 +14,14 @@ public class StationRepository {
 
     static {
         for (final StationInformation stationInformation : StationInformation.values()) {
-            if (LineRepository.hasNotContainLineName(stationInformation.getLineName())) {
-                throw new InitializeException(ExceptionMessage.INITIALIZE_FAIL);
-            }
-            addStation(new Station(stationInformation.getStationName(), stationInformation.getLineName()));
+            validateContainLine(stationInformation.getLineName());
+            addNotDuplicateStation(new Station(stationInformation.getStationName()));
+        }
+    }
+
+    private static void validateContainLine(final String lineName) {
+        if (LineRepository.hasNotContainLineName(lineName)) {
+            throw new InitializeException(ExceptionMessage.INITIALIZE_FAIL);
         }
     }
 
@@ -36,4 +40,15 @@ public class StationRepository {
     public static void deleteAll() {
         stations.clear();
     }
+
+    private static void addNotDuplicateStation(final Station station) {
+        if (doesNotExistStation(station)) {
+            addStation(station);
+        }
+    }
+
+    public static boolean doesNotExistStation(final Station station) {
+        return !stations.contains(station);
+    }
+
 }

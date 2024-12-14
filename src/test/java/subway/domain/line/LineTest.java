@@ -1,9 +1,8 @@
-package subway.domain;
+package subway.domain.line;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import subway.domain.station.line.Line;
 
 class LineTest {
 

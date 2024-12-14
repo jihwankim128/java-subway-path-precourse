@@ -10,7 +10,7 @@ class StationRepositoryTest {
     @Test
     void 초기_역_정보가_불러와지는지_확인() {
         List<Station> result = StationRepository.stations();
-        assertThat(result).hasSize(10);
+        assertThat(result).hasSize(7);
     }
 
 }

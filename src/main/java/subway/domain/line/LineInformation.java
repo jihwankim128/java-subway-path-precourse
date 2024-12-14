@@ -1,4 +1,4 @@
-package subway.domain.station.line;
+package subway.domain.line;
 
 public enum LineInformation {
 

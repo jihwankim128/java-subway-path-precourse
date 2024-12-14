@@ -13,6 +13,7 @@ public class OutputView {
 
     public void displayErrorMessage(final String message) {
         System.out.println(message);
+        System.out.println();
     }
 
     protected void displayMainFeatureType() {
@@ -31,6 +32,14 @@ public class OutputView {
                 .append("B. 돌아가기\n")
                 .append("\n");
         clear();
+    }
+
+    protected void displayStartStation() {
+        System.out.println("## 출발역을 입력하세요.");
+    }
+
+    protected void displayEndStation() {
+        System.out.println("## 도착역을 입력하세요.");
     }
 
 }
