@@ -4,19 +4,20 @@ import java.util.Arrays;
 import subway.exception.BadArgumentException;
 import subway.exception.ExceptionMessage;
 
-public enum MainInputType {
+public enum SearchFeatureType {
 
-    SHOW_PATH("1"),
-    EXIT("Q"),
+    SHORTEST_PATH("1"),
+    SHORTEST_TIME("2"),
+    BACK("B"),
     ;
 
     private final String input;
 
-    MainInputType(String input) {
+    SearchFeatureType(String input) {
         this.input = input;
     }
 
-    public static MainInputType from(final String input) {
+    public static SearchFeatureType from(final String input) {
         return Arrays.stream(values())
                 .filter(item -> item.input.equals(input))
                 .findFirst()

@@ -15,13 +15,22 @@ public class OutputView {
         System.out.println(message);
     }
 
-    protected void displayMainFeature() {
+    protected void displayMainFeatureType() {
         stringBuilder.append("## 메인화면\n").append("1. 경로 조회\n").append("Q. 종료\n").append("\n");
         clear();
     }
 
     protected void displayWantedFeature() {
         System.out.println("## 원하는 기능을 선택하세요.");
+    }
+
+    protected void displaySearchFeatureType() {
+        stringBuilder.append("## 경로 기준\n")
+                .append("1. 최단 거리\n")
+                .append("2. 최소 시간\n")
+                .append("B. 돌아가기\n")
+                .append("\n");
+        clear();
     }
 
 }

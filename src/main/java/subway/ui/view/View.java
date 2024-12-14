@@ -1,6 +1,7 @@
 package subway.ui.view;
 
-import subway.ui.MainInputType;
+import subway.ui.MainFeatureType;
+import subway.ui.SearchFeatureType;
 
 public class View extends OutputView {
 
@@ -10,9 +11,16 @@ public class View extends OutputView {
         this.prompt = prompt;
     }
 
-    public MainInputType enterMainFeature() {
-        displayMainFeature();
+    public MainFeatureType enterMainFeature() {
+        displayMainFeatureType();
         displayWantedFeature();
-        return MainInputType.from(prompt.readInputData());
+        return MainFeatureType.from(prompt.readInputData());
     }
+
+    public SearchFeatureType enterSearchFeatureType() {
+        displaySearchFeatureType();
+        displayWantedFeature();
+        return SearchFeatureType.from(prompt.readInputData());
+    }
+
 }
