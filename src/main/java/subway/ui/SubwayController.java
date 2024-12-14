@@ -1,8 +1,9 @@
 package subway.ui;
 
+import subway.application.SearchResponse;
+import subway.domain.Graph;
 import subway.domain.Route;
 import subway.domain.station.Station;
-import subway.domain.station.StationRepository;
 import subway.ui.view.View;
 
 public class SubwayController {
@@ -25,29 +26,45 @@ public class SubwayController {
     private void processPathSearch() {
         final SearchFeatureType searchFeatureType = exceptionHandler.retry(view::enterSearchFeatureType);
         if (searchFeatureType == SearchFeatureType.SHORTEST_PATH) {
-            processShortestDistanceSearch();
+            view.displaySearchResult(processShortestDistanceSearch());
         }
         if (searchFeatureType == SearchFeatureType.SHORTEST_TIME) {
-            processShortestTimeSearch();
+            view.displaySearchResult(processShortestTimeSearch());
         }
     }
 
-    private void processShortestTimeSearch() {
-        final Route route = exceptionHandler.retry(this::extractRoute);
-        System.out.println("최소 시간 조회입니다.\n");
-    }
-
-    private void processShortestDistanceSearch() {
-        final Route route = exceptionHandler.retry(this::extractRoute);
-        System.out.println("최단 경로 조회입니다.\n");
-    }
-
-    private Route extractRoute() {
-        return new Route(
-                new Station(view.enterStartStation()),
-                new Station(view.enterEndStation())
+    private SearchResponse processShortestTimeSearch() {
+        final Route route = exceptionHandler.retry(this::extractShortestTimeRoute);
+        return SearchResponse.of(
+                route.getShortestDistance(),
+                route.getShortestTime(),
+                route.getShortestPath()
         );
     }
 
+    private SearchResponse processShortestDistanceSearch() {
+        final Route route = exceptionHandler.retry(this::extractShortestPathRoute);
+        return SearchResponse.of(
+                route.getShortestDistance(),
+                route.getShortestTime(),
+                route.getShortestPath()
+        );
+    }
+
+    private Route extractShortestTimeRoute() {
+        return new Route(
+                new Station(view.enterStartStation()),
+                new Station(view.enterEndStation()),
+                new Graph().extractShortestTime()
+        );
+    }
+
+    private Route extractShortestPathRoute() {
+        return new Route(
+                new Station(view.enterStartStation()),
+                new Station(view.enterEndStation()),
+                new Graph().extractShortestPath()
+        );
+    }
 
 }

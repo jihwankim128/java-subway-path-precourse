@@ -51,4 +51,10 @@ public class StationRepository {
         return !stations.contains(station);
     }
 
+    public static Station getStation(final StationInformation stationA) {
+        return stations.stream()
+                .filter(station -> station.getName().equals(stationA.getStationName()))
+                .findFirst()
+                .orElseThrow(() -> new InitializeException(ExceptionMessage.INITIALIZE_FAIL));
+    }
 }

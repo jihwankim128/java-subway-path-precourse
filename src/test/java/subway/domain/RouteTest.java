@@ -2,6 +2,8 @@ package subway.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.jupiter.api.Test;
 import subway.domain.station.Station;
 import subway.exception.BadArgumentException;
@@ -14,9 +16,10 @@ class RouteTest {
         // given
         Station startStation = new Station("출발역");
         Station endStation = new Station("출발역");
+        DijkstraShortestPath<Station, DefaultWeightedEdge> graph = new Graph().extractShortestPath();
 
         // when & then
-        assertThatThrownBy(() -> new Route(startStation, endStation))
+        assertThatThrownBy(() -> new Route(startStation, endStation, graph))
                 .isInstanceOf(BadArgumentException.class)
                 .hasMessageContaining(ExceptionMessage.SAME_STATION.getMessage());
     }
@@ -26,9 +29,10 @@ class RouteTest {
         // given, StationRepository
         Station startStation = new Station("출발역");
         Station endStation = new Station("도착역");
+        DijkstraShortestPath<Station, DefaultWeightedEdge> graph = new Graph().extractShortestPath();
 
         // when & then
-        assertThatThrownBy(() -> new Route(startStation, endStation))
+        assertThatThrownBy(() -> new Route(startStation, endStation, graph))
                 .isInstanceOf(BadArgumentException.class)
                 .hasMessageContaining(ExceptionMessage.INVALID_INPUT_DATA.getMessage());
     }

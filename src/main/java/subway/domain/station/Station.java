@@ -13,7 +13,7 @@ public class Station {
         this.name = name;
     }
 
-    private static void validateStationNameNullOrEmpty(final String name) {
+    private void validateStationNameNullOrEmpty(final String name) {
         if (name == null || name.isEmpty()) {
             throw new BadArgumentException(ExceptionMessage.INVALID_INPUT_DATA);
         }

@@ -11,7 +11,11 @@ import static subway.domain.station.StationInformation.THIRD_LINE_MAEBONG;
 import static subway.domain.station.StationInformation.THIRD_LINE_NAMBU;
 import static subway.domain.station.StationInformation.THIRD_LINE_YANGJAE;
 
+import java.util.Arrays;
+import subway.domain.station.Station;
 import subway.domain.station.StationInformation;
+import subway.exception.BadArgumentException;
+import subway.exception.ExceptionMessage;
 
 public enum RouteInformation {
 
@@ -25,24 +29,38 @@ public enum RouteInformation {
     ;
 
     private final StationInformation stationA;
-    private final StationInformation stationNameB;
+    private final StationInformation stationB;
     private final int kilometer;
     private final int minute;
 
 
-    RouteInformation(StationInformation stationA, StationInformation stationNameB, int kilometer, int minute) {
+    RouteInformation(StationInformation stationA, StationInformation stationB, int kilometer, int minute) {
         this.stationA = stationA;
-        this.stationNameB = stationNameB;
+        this.stationB = stationB;
         this.kilometer = kilometer;
         this.minute = minute;
+    }
+
+    public static RouteInformation of(final Station stationA, final Station stationB) {
+        return Arrays.stream(values())
+                .filter(route -> hasPath(stationA, stationB, route))
+                .findFirst()
+                .orElseThrow(() -> new BadArgumentException(ExceptionMessage.INVALID_INPUT_DATA));
+    }
+
+    private static boolean hasPath(final Station stationA, final Station stationB, final RouteInformation route) {
+        return (route.getStationA().getStationName().equals(stationA.getName()) &&
+                route.getStationB().getStationName().equals(stationB.getName())) ||
+                (route.getStationB().getStationName().equals(stationA.getName()) &&
+                        route.getStationA().getStationName().equals(stationB.getName()));
     }
 
     public StationInformation getStationA() {
         return stationA;
     }
 
-    public StationInformation getStationNameB() {
-        return stationNameB;
+    public StationInformation getStationB() {
+        return stationB;
     }
 
     public int getKilometer() {
